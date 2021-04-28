@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Cinan</string>
+    <string name="new_game">New game</string>
+    <string name="sort">Sort</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+
+    <!-- Preference Titles -->
+    <string name="personal_header">Personal</string>
+    <string name="game_settings_header">Game settings</string>
+    <string name="other_header">Other</string>
+
+    <!-- Messages Preferences -->
+    <string name="nickname_title">Your nickname</string>
+    <string name="number_of_cards_in_fantasy_title">Number of cards in fantasy</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+</resources>
