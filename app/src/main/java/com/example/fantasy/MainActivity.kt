@@ -81,15 +81,52 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
-private val cardFaces = arrayOf("2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K", "A")
-private val cardSuits = arrayOf("s", "h", "d", "c")
-private val cardRanks = cardFaces.mapIndexed { index, s -> s to index + 2 }
-    .toMap()     // ranks from "2 to 2" to "A to 14"
+enum class CardFace(val abbr: Char) {
+    ACE('A'),
+    TWO('2'),
+    THREE('3'),
+    FOUR('4'),
+    FIVE('5'),
+    SIX('6'),
+    SEVEN('7'),
+    EIGHT('8'),
+    NINE('9'),
+    TEN('T'),
+    JACK('J'),
+    QUEEN('Q'),
+    KING('K');
+}
+
+fun CardFace.rank(): Int {
+    return when (this) {
+        CardFace.ACE -> 14
+        CardFace.TWO -> 2
+        CardFace.THREE -> 3
+        CardFace.FOUR -> 4
+        CardFace.FIVE -> 5
+        CardFace.SIX -> 6
+        CardFace.SEVEN -> 7
+        CardFace.EIGHT -> 8
+        CardFace.NINE -> 9
+        CardFace.TEN -> 10
+        CardFace.JACK -> 11
+        CardFace.QUEEN -> 12
+        CardFace.KING -> 13
+    }
+}
+
+enum class CardSuit(val abbr: Char) {
+    SPADES('s'),
+    HEARTS('h'),
+    DIAMONDS('d'),
+    CLUBS('c');
+}
+
 private val cardHexColors = mapOf(
-    "s" to "#000000",    // black - spades
-    "h" to "#ff0000",    // red - hearts
-    "d" to "#0000ff",    // blue - diamonds
-    "c" to "#00ff00"     // green - clubs
+    's' to "#000000",    // black - spades
+    'h' to "#ff0000",    // red - hearts
+    'd' to "#0000ff",    // blue - diamonds
+    'c' to "#00ff00"     // green - clubs
 )
 
 class Game {
@@ -99,9 +136,8 @@ class Game {
     }
 }
 
-class Card(val face: String, val suit: String) {            // TODO face and suit check
-    fun rank(): Int = cardRanks[face]!!
-    fun htmlColored(): String = "<font color=${cardHexColors[suit]}>$face$suit</font> "
+class Card(val cardFace: CardFace, val cardSuit: CardSuit) {            // TODO face and suit check
+    fun htmlColored(): String = "<font color=${cardHexColors[cardSuit.abbr]}>${cardFace.abbr}${cardSuit.abbr}</font> "
 }
 
 open class GroupOfCards(private val groupOfCards: MutableList<Card>) {
@@ -139,24 +175,24 @@ open class GroupOfCards(private val groupOfCards: MutableList<Card>) {
 
     private fun sortCardsByRank() {
         val comparator = Comparator { card1: Card, card2: Card ->
-            return@Comparator card2.rank() - card1.rank()
+            return@Comparator card2.cardFace.rank() - card1.cardFace.rank()
         }
         groupOfCards.sortWith(comparator)
     }
 
-    private fun sortCardsByColor() = groupOfCards.sortByDescending { it.suit }
+    private fun sortCardsByColor() = groupOfCards.sortByDescending { it.cardSuit.abbr }
 }
 
 class Deck(private val groupOfCards: MutableList<Card> = mutableListOf()) :
     GroupOfCards(groupOfCards) {
     fun loadFullDeck() {
         groupOfCards.clear()
-        cardFaces.forEach { face ->
-            cardSuits.forEach { suit ->
+        CardFace.values().forEach { cardFace ->
+            CardSuit.values().forEach { cardSuit ->
                 groupOfCards.add(
                     Card(
-                        face,
-                        suit
+                        cardFace,
+                        cardSuit
                     )
                 )
             }
