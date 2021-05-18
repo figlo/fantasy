@@ -95,23 +95,23 @@ enum class CardFace(val abbr: Char) {
     JACK('J'),
     QUEEN('Q'),
     KING('K');
-}
 
-fun CardFace.rank(): Int {
-    return when (this) {
-        CardFace.ACE -> 14
-        CardFace.TWO -> 2
-        CardFace.THREE -> 3
-        CardFace.FOUR -> 4
-        CardFace.FIVE -> 5
-        CardFace.SIX -> 6
-        CardFace.SEVEN -> 7
-        CardFace.EIGHT -> 8
-        CardFace.NINE -> 9
-        CardFace.TEN -> 10
-        CardFace.JACK -> 11
-        CardFace.QUEEN -> 12
-        CardFace.KING -> 13
+    fun rank(): Int {
+        return when (this) {
+            ACE -> 14
+            TWO -> 2
+            THREE -> 3
+            FOUR -> 4
+            FIVE -> 5
+            SIX -> 6
+            SEVEN -> 7
+            EIGHT -> 8
+            NINE -> 9
+            TEN -> 10
+            JACK -> 11
+            QUEEN -> 12
+            KING -> 13
+        }
     }
 }
 
@@ -120,14 +120,16 @@ enum class CardSuit(val abbr: Char) {
     HEARTS('h'),
     DIAMONDS('d'),
     CLUBS('c');
-}
 
-private val cardHexColors = mapOf(
-    's' to "#000000",    // black - spades
-    'h' to "#ff0000",    // red - hearts
-    'd' to "#0000ff",    // blue - diamonds
-    'c' to "#00ff00"     // green - clubs
-)
+    fun suitHexColor(): String {
+        return when (this) {
+            SPADES -> "#00000"           // black
+            HEARTS -> "#ff0000"          // red
+            DIAMONDS -> "#0000ff"        // blue
+            CLUBS -> "#00ff00"           // green
+        }
+    }
+}
 
 class Game {
     val deck = Deck()
@@ -136,8 +138,9 @@ class Game {
     }
 }
 
-class Card(val cardFace: CardFace, val cardSuit: CardSuit) {            // TODO face and suit check
-    fun htmlColored(): String = "<font color=${cardHexColors[cardSuit.abbr]}>${cardFace.abbr}${cardSuit.abbr}</font> "
+class Card(val cardFace: CardFace, val cardSuit: CardSuit) {
+    fun htmlColored(): String =
+        "<font color=${cardSuit.suitHexColor()}>${cardFace.abbr}${cardSuit.abbr}</font> "
 }
 
 open class GroupOfCards(private val groupOfCards: MutableList<Card>) {
