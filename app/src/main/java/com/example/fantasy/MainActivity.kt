@@ -24,8 +24,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         val preferences = PreferenceManager.getDefaultSharedPreferences(this)
-        val numberOfCardsInFantasy =
-            preferences.getString("number_of_cards_in_fantasy", "14")?.toByte()!!
+        val numberOfCardsInFantasy = preferences.getString("number_of_cards_in_fantasy", "14")?.toByte()!!
 
         val game = Game()
         var playerCards = GroupOfCards(mutableListOf())
@@ -51,12 +50,7 @@ class MainActivity : AppCompatActivity() {
         val preferences = PreferenceManager.getDefaultSharedPreferences(this)
         textViewNickName.text = preferences.getString("nickName", "")
         preferences.registerOnSharedPreferenceChangeListener { _, key ->
-            if (key == "nickName") {
-                textViewNickName.text = preferences.getString(
-                    "nickName",
-                    ""
-                )
-            }
+            if (key == "nickName") textViewNickName.text = preferences.getString("nickName", "")
         }
     }
 
@@ -81,56 +75,6 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
-enum class CardFace(val abbr: Char) {
-    ACE('A'),
-    TWO('2'),
-    THREE('3'),
-    FOUR('4'),
-    FIVE('5'),
-    SIX('6'),
-    SEVEN('7'),
-    EIGHT('8'),
-    NINE('9'),
-    TEN('T'),
-    JACK('J'),
-    QUEEN('Q'),
-    KING('K');
-
-    fun rank(): Int {
-        return when (this) {
-            ACE -> 14
-            TWO -> 2
-            THREE -> 3
-            FOUR -> 4
-            FIVE -> 5
-            SIX -> 6
-            SEVEN -> 7
-            EIGHT -> 8
-            NINE -> 9
-            TEN -> 10
-            JACK -> 11
-            QUEEN -> 12
-            KING -> 13
-        }
-    }
-}
-
-enum class CardSuit(val abbr: Char) {
-    SPADES('s'),
-    HEARTS('h'),
-    DIAMONDS('d'),
-    CLUBS('c');
-
-    fun suitHexColor(): String {
-        return when (this) {
-            SPADES -> "#00000"           // black
-            HEARTS -> "#ff0000"          // red
-            DIAMONDS -> "#0000ff"        // blue
-            CLUBS -> "#00ff00"           // green
-        }
-    }
-}
-
 class Game {
     val deck = Deck()
     fun start() {
@@ -139,8 +83,7 @@ class Game {
 }
 
 class Card(val cardFace: CardFace, val cardSuit: CardSuit) {
-    fun htmlColored(): String =
-        "<font color=${cardSuit.suitHexColor()}>${cardFace.abbr}${cardSuit.abbr}</font> "
+    fun htmlColored(): String = "<font color=${cardSuit.suitHexColor()}>${cardFace.abbr()}${cardSuit.abbr()}</font> "
 }
 
 open class GroupOfCards(private val groupOfCards: MutableList<Card>) {
@@ -183,24 +126,16 @@ open class GroupOfCards(private val groupOfCards: MutableList<Card>) {
         groupOfCards.sortWith(comparator)
     }
 
-    private fun sortCardsByColor() = groupOfCards.sortByDescending { it.cardSuit.abbr }
+    private fun sortCardsByColor() = groupOfCards.sortByDescending { it.cardSuit.abbr() }
 }
 
-class Deck(private val groupOfCards: MutableList<Card> = mutableListOf()) :
-    GroupOfCards(groupOfCards) {
+class Deck(private val groupOfCards: MutableList<Card> = mutableListOf()) : GroupOfCards(groupOfCards) {
     fun loadFullDeck() {
         groupOfCards.clear()
         CardFace.values().forEach { cardFace ->
             CardSuit.values().forEach { cardSuit ->
-                groupOfCards.add(
-                    Card(
-                        cardFace,
-                        cardSuit
-                    )
-                )
+                groupOfCards.add(Card(cardFace, cardSuit))
             }
         }
     }
 }
-
-// TODO test
