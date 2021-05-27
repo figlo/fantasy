@@ -10,46 +10,68 @@
         android:id="@+id/includedLayout"
         layout="@layout/toolbar" />
 
+    <TableLayout
+        android:id="@+id/prefsTable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/includedLayout">
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:padding="4dp"
+                android:text="@string/your_nickname"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/textViewNickName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="4dp"
+                android:textSize="20sp" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:padding="4dp"
+                android:text="@string/fantasy_land_cards"
+                android:textSize="20sp" />
+
+            <Spinner
+                android:id="@+id/spinnerNumberOfFantasyLandCards"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:entries="@array/number_of_cards_in_fantasy_land_entries"
+                android:textSize="20sp" />
+
+        </TableRow>
+
+    </TableLayout>
+
     <Button
         android:id="@+id/buttonNewGame"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/new_game"
+        android:text="@string/start_game"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewFantasyCards"
-        app:layout_constraintVertical_bias="0.8" />
-
-    <TextView
-        android:id="@+id/textViewFantasyCards"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="36sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="As" />
-
-    <Button
-        android:id="@+id/buttonSort"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/sort"
-        app:layout_constraintBottom_toTopOf="@+id/buttonNewGame"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewFantasyCards" />
-
-    <TextView
-        android:id="@+id/textViewNickName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/includedLayout"
-        tools:text="Nickname" />
+        app:layout_constraintTop_toBottomOf="@+id/prefsTable" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

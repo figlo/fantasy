@@ -1,6 +1,6 @@
 <resources>
     <!-- Number of Fantasy Cards Preference -->
-    <string-array name="number_of_cards_in_fantasy_entries">
+    <string-array name="number_of_cards_in_fantasy_land_entries">
         <item>13</item>
         <item>14</item>
         <item>15</item>
@@ -8,7 +8,7 @@
         <item>17</item>
     </string-array>
 
-    <string-array name="number_of_cards_in_fantasy_values">
+    <string-array name="number_of_cards_in_fantasy_land_values">
         <item>13</item>
         <item>14</item>
         <item>15</item>

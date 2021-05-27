@@ -9,32 +9,16 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="@string/game_settings_header">
+<!--    <PreferenceCategory app:title="@string/game_settings_header">-->
 
-        <ListPreference
-            app:defaultValue="14"
-            app:entries="@array/number_of_cards_in_fantasy_entries"
-            app:entryValues="@array/number_of_cards_in_fantasy_values"
-            app:key="number_of_cards_in_fantasy"
-            app:title="@string/number_of_cards_in_fantasy_title"
-            app:useSimpleSummaryProvider="true" />
+<!--        <ListPreference-->
+<!--            app:defaultValue="14"-->
+<!--            app:entries="@array/number_of_cards_in_fantasy_land_entries"-->
+<!--            app:entryValues="@array/number_of_cards_in_fantasy_land_values"-->
+<!--            app:key="number_of_cards_in_fantasy_land"-->
+<!--            app:title="@string/number_of_cards_in_fantasy_land_title"-->
+<!--            app:useSimpleSummaryProvider="true" />-->
 
-    </PreferenceCategory>
-<!--
-    <PreferenceCategory app:title="@string/other_header">
-
-        <SwitchPreferenceCompat
-            app:key="sync"
-            app:title="@string/sync_title" />
-
-        <SwitchPreferenceCompat
-            app:dependency="sync"
-            app:key="attachment"
-            app:summaryOff="@string/attachment_summary_off"
-            app:summaryOn="@string/attachment_summary_on"
-            app:title="@string/attachment_title" />
-
-    </PreferenceCategory>
--->
+<!--    </PreferenceCategory>-->
 
 </PreferenceScreen>
