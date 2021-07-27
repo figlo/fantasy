@@ -3,11 +3,18 @@ package com.example.fantasy
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceFragmentCompat
+import com.example.fantasy.databinding.SettingsActivityBinding
 
 class SettingsActivity : AppCompatActivity() {
-
+    private lateinit var binding: SettingsActivityBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = SettingsActivityBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+//        val toolbar = binding.includedLayout.toolbar
+//        setSupportActionBar(toolbar)
+
         setContentView(R.layout.settings_activity)
         supportFragmentManager
             .beginTransaction()

@@ -2,6 +2,7 @@ package com.example.fantasy
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -44,7 +45,7 @@ class GameActivity : AppCompatActivity() {
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {               // TODO get rid of redundant code (MainActivity)
         return when (item.itemId) {
             R.id.settings -> {
                 val intent = Intent(this, SettingsActivity::class.java)
@@ -68,7 +69,7 @@ class Game {
 }
 
 class Card(val cardFace: CardFace, val cardSuit: CardSuit) {
-    fun htmlColored(): String = "<font color=${cardSuit.suitHexColor()}>${cardFace.abbr()}${cardSuit.abbr()}</font> "
+    val htmlColored = "<font color=${cardSuit.suitHexColor}>${cardFace.abbr}${cardSuit.abbr}</font> "
 }
 
 open class GroupOfCards(private val groupOfCards: MutableList<Card>) {
@@ -77,6 +78,7 @@ open class GroupOfCards(private val groupOfCards: MutableList<Card>) {
         for (i in 1..quantity) {
             groupOfCards.random().let {
                 cards.add(it)
+//                Log.d("GroupOfCards", it.cardFace.abbr.toString() + it.cardSuit.abbr.toString())
                 groupOfCards.remove(it)
             }
         }
@@ -84,7 +86,7 @@ open class GroupOfCards(private val groupOfCards: MutableList<Card>) {
     }
 
     fun displayCards() = HtmlCompat.fromHtml(
-        groupOfCards.joinToString("") { it.htmlColored() },
+        groupOfCards.joinToString("") { it.htmlColored },
         HtmlCompat.FROM_HTML_MODE_LEGACY
     )
 
@@ -106,12 +108,12 @@ open class GroupOfCards(private val groupOfCards: MutableList<Card>) {
 
     private fun sortCardsByRank() {
         val comparator = Comparator { card1: Card, card2: Card ->
-            return@Comparator card2.cardFace.rank() - card1.cardFace.rank()
+            return@Comparator card2.cardFace.rankAceHigh - card1.cardFace.rankAceHigh
         }
         groupOfCards.sortWith(comparator)
     }
 
-    private fun sortCardsByColor() = groupOfCards.sortByDescending { it.cardSuit.abbr() }
+    private fun sortCardsByColor() = groupOfCards.sortByDescending { it.cardSuit.abbr }
 }
 
 class Deck(private val groupOfCards: MutableList<Card> = mutableListOf()) : GroupOfCards(groupOfCards) {
