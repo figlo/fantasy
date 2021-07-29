@@ -1,6 +1,6 @@
 package com.example.fantasy
 
-enum class CardFace(val abbr: Char, val rankAceHigh: Byte) {
+enum class CardFace(val abbr: Char, val rankAceHigh: Int) {
     ACE('A', 14),
     TWO('2', 2),
     THREE('3', 3),
@@ -23,7 +23,7 @@ enum class CardSuit(val abbr: Char, val suitHexColor: String) {
     CLUBS('c', "#00ff00");          // green
 }
 
-enum class PokerCombination() {
+enum class PokerCombination {
     HIGH_CARD,
     PAIR,
     TWO_PAIRS,

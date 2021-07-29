@@ -1,48 +1,45 @@
 package com.example.fantasy
 
+import com.example.fantasy.PokerCombination.*
+
 abstract class Row(groupOfCards: MutableList<Card>) : GroupOfCards(groupOfCards) {
-    abstract fun pokerCombination(): PokerCombination
-    abstract fun value(): Byte
+    abstract fun value(): Int
+
+    open fun pokerCombination(): PokerCombination {                       // TODO
+        return HIGH_CARD
+    }
 }
 
 class BottomRow(groupOfCards: MutableList<Card>) : Row(groupOfCards) {
-    override fun pokerCombination(): PokerCombination {
-       return PokerCombination.HIGH_CARD
-    }
-
-    override fun value(): Byte {
+    override fun value(): Int {
         return when (pokerCombination()) {
-            PokerCombination.HIGH_CARD -> 0
-            PokerCombination.PAIR -> 0
-            PokerCombination.TWO_PAIRS -> 0
-            PokerCombination.TRIPS -> 0
-            PokerCombination.STRAIGHT -> 2
-            PokerCombination.FLUSH -> 4
-            PokerCombination.FULL_HOUSE -> 6
-            PokerCombination.QUADS -> 10
-            PokerCombination.STRAIGHT_FLUSH -> 15
-            PokerCombination.ROYAL_FLUSH -> 25
+            HIGH_CARD -> 0
+            PAIR -> 0
+            TWO_PAIRS -> 0
+            TRIPS -> 0
+            STRAIGHT -> 2
+            FLUSH -> 4
+            FULL_HOUSE -> 6
+            QUADS -> 10
+            STRAIGHT_FLUSH -> 15
+            ROYAL_FLUSH -> 25
         }
     }
 }
 
 class MiddleRow(groupOfCards: MutableList<Card>) : Row(groupOfCards) {
-    override fun pokerCombination(): PokerCombination {
-        return PokerCombination.HIGH_CARD
-    }
-
-    override fun value(): Byte {
+    override fun value(): Int {
         return when (pokerCombination()) {
-            PokerCombination.HIGH_CARD -> 0
-            PokerCombination.PAIR -> 0
-            PokerCombination.TWO_PAIRS -> 0
-            PokerCombination.TRIPS -> 2
-            PokerCombination.STRAIGHT -> 4
-            PokerCombination.FLUSH -> 8
-            PokerCombination.FULL_HOUSE -> 12
-            PokerCombination.QUADS -> 20
-            PokerCombination.STRAIGHT_FLUSH -> 30
-            PokerCombination.ROYAL_FLUSH -> 50
+            HIGH_CARD -> 0
+            PAIR -> 0
+            TWO_PAIRS -> 0
+            TRIPS -> 2
+            STRAIGHT -> 4
+            FLUSH -> 8
+            FULL_HOUSE -> 12
+            QUADS -> 20
+            STRAIGHT_FLUSH -> 30
+            ROYAL_FLUSH -> 50
         }
     }
 
@@ -50,22 +47,22 @@ class MiddleRow(groupOfCards: MutableList<Card>) : Row(groupOfCards) {
 
 class TopRow(groupOfCards: MutableList<Card>) : Row(groupOfCards) {
     override fun pokerCombination(): PokerCombination {
-        return PokerCombination.HIGH_CARD
+        return HIGH_CARD
     }
 
-    override fun value(): Byte {
+    override fun value(): Int {
         return when (pokerCombination()) {
-            PokerCombination.PAIR -> topRowPair()
-            PokerCombination.TRIPS -> topRowTrips()
+            PAIR -> topRowPair()
+            TRIPS -> topRowTrips()
             else -> 0
         }
     }
 
-    private fun topRowPair(): Byte {
+    private fun topRowPair(): Int {
         return 9
     }
 
-    private fun topRowTrips(): Byte {
+    private fun topRowTrips(): Int {
         return 22
     }
 }

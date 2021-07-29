@@ -2,7 +2,6 @@ package com.example.fantasy
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -25,12 +24,14 @@ class GameActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         val preferences = PreferenceManager.getDefaultSharedPreferences(this)
-        val numberOfCardsInFantasyLand = preferences.getString("number_of_cards_in_fantasy_land", "14")?.toByte()!!
+        val numberOfCardsInFantasyLand = preferences.getString("number_of_cards_in_fantasy_land", "14")?.toInt()!!
 
         val game = Game()
         game.start()
 
         val playerCards = game.deck.takeRandomCards(numberOfCardsInFantasyLand)
+//        Log.d("hodnotyPocet", playerCards.numberOfFaces.toString())
+//        Log.d("farbyPocet", playerCards.numberOfSuits.toString())
         textViewFantasyCards.text = playerCards.displayCards()
         buttonSort.visibility = View.VISIBLE
 
@@ -70,15 +71,29 @@ class Game {
 
 class Card(val cardFace: CardFace, val cardSuit: CardSuit) {
     val htmlColored = "<font color=${cardSuit.suitHexColor}>${cardFace.abbr}${cardSuit.abbr}</font> "
+
+    override fun toString() = "${cardFace.abbr}${cardSuit.abbr}"
 }
 
 open class GroupOfCards(private val groupOfCards: MutableList<Card>) {
-    fun takeRandomCards(quantity: Byte): GroupOfCards {
+    val numberOfFaces: Int
+        get() {
+            return groupOfCards.map {it.cardFace}
+                .distinct()
+                .count()
+        }
+    val numberOfSuits: Int
+        get() {
+            return groupOfCards.map {it.cardSuit}
+                .distinct()
+                .count()
+        }
+
+    fun takeRandomCards(quantity: Int): GroupOfCards {
         val cards: MutableList<Card> = mutableListOf()
         for (i in 1..quantity) {
             groupOfCards.random().let {
                 cards.add(it)
-//                Log.d("GroupOfCards", it.cardFace.abbr.toString() + it.cardSuit.abbr.toString())
                 groupOfCards.remove(it)
             }
         }
@@ -114,6 +129,16 @@ open class GroupOfCards(private val groupOfCards: MutableList<Card>) {
     }
 
     private fun sortCardsByColor() = groupOfCards.sortByDescending { it.cardSuit.abbr }
+
+    override fun toString(): String {
+        var result = "["
+        for ((index, card) in groupOfCards.withIndex()) {
+            if (index > 0) result += " "
+            result += card
+        }
+        result += "]"
+        return result
+    }
 }
 
 class Deck(private val groupOfCards: MutableList<Card> = mutableListOf()) : GroupOfCards(groupOfCards) {
