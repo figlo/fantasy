@@ -7,11 +7,9 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.text.HtmlCompat
 import androidx.preference.PreferenceManager
 import com.example.fantasy.databinding.ActivityGameBinding
 import kotlinx.android.synthetic.main.activity_game.*
-import kotlinx.android.synthetic.main.activity_main.*
 
 class GameActivity : AppCompatActivity() {
     private lateinit var binding: ActivityGameBinding
@@ -36,7 +34,7 @@ class GameActivity : AppCompatActivity() {
         buttonSort.visibility = View.VISIBLE
 
         buttonSort.setOnClickListener {
-            playerCards.sortCards()
+            playerCards.sort()
             textViewFantasyCards.text = playerCards.displayCards()
         }
     }
@@ -58,96 +56,6 @@ class GameActivity : AppCompatActivity() {
                 true
             }
             else -> super.onOptionsItemSelected(item)
-        }
-    }
-}
-
-class Game {
-    val deck = Deck()
-    fun start() {
-        deck.loadFullDeck()
-    }
-}
-
-class Card(val cardFace: CardFace, val cardSuit: CardSuit) {
-    val htmlColored = "<font color=${cardSuit.suitHexColor}>${cardFace.abbr}${cardSuit.abbr}</font> "
-
-    override fun toString() = "${cardFace.abbr}${cardSuit.abbr}"
-}
-
-open class GroupOfCards(private val groupOfCards: MutableList<Card>) {
-    val numberOfFaces: Int
-        get() {
-            return groupOfCards.map {it.cardFace}
-                .distinct()
-                .count()
-        }
-    val numberOfSuits: Int
-        get() {
-            return groupOfCards.map {it.cardSuit}
-                .distinct()
-                .count()
-        }
-
-    fun takeRandomCards(quantity: Int): GroupOfCards {
-        val cards: MutableList<Card> = mutableListOf()
-        for (i in 1..quantity) {
-            groupOfCards.random().let {
-                cards.add(it)
-                groupOfCards.remove(it)
-            }
-        }
-        return GroupOfCards(cards)
-    }
-
-    fun displayCards() = HtmlCompat.fromHtml(
-        groupOfCards.joinToString("") { it.htmlColored },
-        HtmlCompat.FROM_HTML_MODE_LEGACY
-    )
-
-    private var sortCardsSwitch = true
-    fun sortCards() {
-        if (sortCardsSwitch) sortCardsByColorAndRank() else sortCardsByRankAndColor()
-        sortCardsSwitch = !sortCardsSwitch
-    }
-
-    private fun sortCardsByRankAndColor() {
-        sortCardsByColor()
-        sortCardsByRank()
-    }
-
-    private fun sortCardsByColorAndRank() {
-        sortCardsByRank()
-        sortCardsByColor()
-    }
-
-    private fun sortCardsByRank() {
-        val comparator = Comparator { card1: Card, card2: Card ->
-            return@Comparator card2.cardFace.rankAceHigh - card1.cardFace.rankAceHigh
-        }
-        groupOfCards.sortWith(comparator)
-    }
-
-    private fun sortCardsByColor() = groupOfCards.sortByDescending { it.cardSuit.abbr }
-
-    override fun toString(): String {
-        var result = "["
-        for ((index, card) in groupOfCards.withIndex()) {
-            if (index > 0) result += " "
-            result += card
-        }
-        result += "]"
-        return result
-    }
-}
-
-class Deck(private val groupOfCards: MutableList<Card> = mutableListOf()) : GroupOfCards(groupOfCards) {
-    fun loadFullDeck() {
-        groupOfCards.clear()
-        CardFace.values().forEach { cardFace ->
-            CardSuit.values().forEach { cardSuit ->
-                groupOfCards.add(Card(cardFace, cardSuit))
-            }
         }
     }
 }

@@ -2,7 +2,7 @@ package com.example.fantasy
 
 import com.example.fantasy.PokerCombination.*
 
-abstract class Row(groupOfCards: MutableList<Card>) : GroupOfCards(groupOfCards) {
+abstract class Row(groupOfCards: MutableList<Card>) : MutableGroupOfCards(groupOfCards) {
     abstract fun value(): Int
 
     open fun pokerCombination(): PokerCombination {                       // TODO
