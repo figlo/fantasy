@@ -16,7 +16,7 @@ enum class CardFace(val abbr: Char, val rankAceHigh: Int) {
     KING('K', 13);
 }
 
-enum class CardSuit(val abbr: Char, val suitHexColor: String) {
+enum class CardSuit(val abbr: Char, val hexColor: String) {
     SPADES('s', "#000000"),         // black
     HEARTS('h', "#ff0000"),         // red
     DIAMONDS('d', "#0000ff"),       // blue

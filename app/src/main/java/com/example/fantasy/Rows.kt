@@ -2,17 +2,13 @@ package com.example.fantasy
 
 import com.example.fantasy.PokerCombination.*
 
-abstract class Row(groupOfCards: MutableList<Card>) : MutableGroupOfCards(groupOfCards) {
-    abstract fun value(): Int
-
-    open fun pokerCombination(): PokerCombination {                       // TODO
-        return HIGH_CARD
-    }
+interface Row {
+    fun value(): Int
 }
 
-class BottomRow(groupOfCards: MutableList<Card>) : Row(groupOfCards) {
+class BottomRow(val groupOfCards: MutableList<Card>) : Cards(groupOfCards), Row {
     override fun value(): Int {
-        return when (pokerCombination()) {
+        return when (pokerCombination) {
             HIGH_CARD -> 0
             PAIR -> 0
             TWO_PAIRS -> 0
@@ -27,9 +23,9 @@ class BottomRow(groupOfCards: MutableList<Card>) : Row(groupOfCards) {
     }
 }
 
-class MiddleRow(groupOfCards: MutableList<Card>) : Row(groupOfCards) {
+class MiddleRow(val groupOfCards: MutableList<Card>) : Cards(groupOfCards), Row {
     override fun value(): Int {
-        return when (pokerCombination()) {
+        return when (pokerCombination) {
             HIGH_CARD -> 0
             PAIR -> 0
             TWO_PAIRS -> 0
@@ -45,20 +41,19 @@ class MiddleRow(groupOfCards: MutableList<Card>) : Row(groupOfCards) {
 
 }
 
-class TopRow(groupOfCards: MutableList<Card>) : Row(groupOfCards) {
-    override fun pokerCombination(): PokerCombination {
-        return HIGH_CARD
-    }
-
+class TopRow(private val groupOfCards: MutableList<Card>) : Cards(groupOfCards), Row {
     override fun value(): Int {
-        return when (pokerCombination()) {
+        return when (pokerCombination) {
+            HIGH_CARD -> 0
             PAIR -> topRowPair()
             TRIPS -> topRowTrips()
-            else -> 0
+            else -> throw IllegalStateException("Poker combination out of range for top row")
         }
     }
 
     private fun topRowPair(): Int {
+        val histogram = groupOfCards.groupingBy { it.face }.eachCount()
+//        val sortedHistogram = histogram.toSortedMap(compareBy<CardFace> {it.})
         return 9
     }
 

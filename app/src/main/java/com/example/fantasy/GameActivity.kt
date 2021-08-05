@@ -27,15 +27,16 @@ class GameActivity : AppCompatActivity() {
         val game = Game()
         game.start()
 
-        val playerCards = game.deck.takeRandomCards(numberOfCardsInFantasyLand)
-//        Log.d("hodnotyPocet", playerCards.numberOfFaces.toString())
+        val playerCards = game.deck.drawCards(numberOfCardsInFantasyLand)
+//        Log.d("hodnotyMin", playerCards.min.toString())
+//        Log.d("hodnotyMax", playerCards.max.toString())
 //        Log.d("farbyPocet", playerCards.numberOfSuits.toString())
-        textViewFantasyCards.text = playerCards.displayCards()
+        textViewFantasyCards.text = playerCards.display()
         buttonSort.visibility = View.VISIBLE
 
         buttonSort.setOnClickListener {
             playerCards.sort()
-            textViewFantasyCards.text = playerCards.displayCards()
+            textViewFantasyCards.text = playerCards.display()
         }
     }
 
