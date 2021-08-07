@@ -1,7 +1,6 @@
 package com.example.fantasy
 
 import androidx.core.text.HtmlCompat
-import com.example.fantasy.PokerCombination.*
 
 class Card(val face: CardFace, val suit: CardSuit) {
     val htmlColored = "<font color=${suit.hexColor}>${face.abbr}${suit.abbr}</font>"
@@ -10,43 +9,6 @@ class Card(val face: CardFace, val suit: CardSuit) {
 }
 
 open class Cards(private val cards: List<Card>) {
-    private val minFace: Int = cards.map { it.face.rankAceHigh }.minOrNull() ?: throw IllegalStateException("minFace must be > 0")
-    private val maxFace: Int = cards.map { it.face.rankAceHigh }.maxOrNull() ?: throw IllegalStateException("maxFace must be > 0")
-
-    private val numberOfFaces =
-        cards.map { it.face }
-            .distinct()
-            .count()
-
-    private val numberOfSuits =
-        cards.map { it.suit }
-            .distinct()
-            .count()
-
-    fun isFlush() = numberOfSuits == 1
-    fun isStraight() = maxFace - minFace == cards.size - 1
-
-    val pokerCombination: PokerCombination
-        get() =
-            when (cards.size) {
-                3 -> pokerCombination3()
-                5 -> pokerCombination5()
-                else -> throw IllegalStateException("Number of cards (must be 3 or 5): ${cards.size}")
-            }
-
-    private fun pokerCombination3(): PokerCombination {
-        return when (numberOfFaces) {
-            1 -> TRIPS
-            2 -> PAIR
-            3 -> HIGH_CARD
-            else -> throw IllegalStateException("Number of faces (must be 1, 2, or 3): $numberOfFaces")
-        }
-    }
-
-    private fun pokerCombination5(): PokerCombination {
-        return HIGH_CARD    // todo
-    }
-
     fun display() = HtmlCompat.fromHtml(
         cards.joinToString(" ") { it.htmlColored },
         HtmlCompat.FROM_HTML_MODE_LEGACY
@@ -84,6 +46,25 @@ open class MutableCards(private val mutableCards: MutableList<Card>) : Cards(mut
     private fun sortByRank() = mutableCards.sortByDescending { it.face.rankAceHigh }
 
     private fun sortByColor() = mutableCards.sortBy { it.suit }
+
+    fun sortByValues() {
+        val tempList =
+            mutableCards.sortedBy { -it.face.rankAceHigh }
+                .groupingBy { it.face }
+                .eachCount()
+                .toList()
+                .sortedBy { (_, value) -> -value }
+        val tempCards = mutableCards.toMutableList()
+        mutableCards.clear()
+        var card: Card
+        for ((key, value) in tempList) {
+            for (i in 1..value) {
+                card = tempCards.first { it.face == key }
+                tempCards.remove(card)
+                mutableCards.add(card)
+            }
+        }
+    }
 }
 
 class Deck(private val deckCards: MutableList<Card> = mutableListOf()) : MutableCards(deckCards) {
@@ -110,5 +91,4 @@ class Deck(private val deckCards: MutableList<Card> = mutableListOf()) : Mutable
         }
         return MutableCards(drawnCards)
     }
-
 }

@@ -36,6 +36,7 @@ class GameActivity : AppCompatActivity() {
 
         buttonSort.setOnClickListener {
             playerCards.sort()
+//            playerCards.sortByValues()
             textViewFantasyCards.text = playerCards.display()
         }
     }
