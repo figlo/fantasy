@@ -25,7 +25,7 @@ open class Cards(private val cards: List<Card>) {
     }
 }
 
-open class MutableCards(private val mutableCards: MutableList<Card>) : Cards(mutableCards) {
+open class MutableCards(val mutableCards: MutableList<Card>) : Cards(mutableCards) {
     private var sortSwitch = true
 
     fun sort() {

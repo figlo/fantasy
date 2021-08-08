@@ -1,43 +1,60 @@
 package com.example.fantasy
 
+import com.example.fantasy.CardFace.*
 import com.example.fantasy.PokerCombination.*
 
-open class ResultCardsInRow(private val cards: List<Card>) : Cards(cards) {
+open class RowCards(private val cards: List<Card>) : Cards(cards) {
+    init {
+        if (cards.size != 3 && cards.size != 5) throw IllegalStateException("Number of row cards (must be 3 or 5): ${cards.size}")
+    }
+
     private val minFace
         get() = cards.map { it.face.rankAceHigh }.minOrNull() ?: throw IllegalStateException("minFace must be > 0")
 
     private val maxFace
         get() = cards.map { it.face.rankAceHigh }.maxOrNull() ?: throw IllegalStateException("maxFace must be > 0")
 
-    val numberOfFaces
+    protected val numberOfFaces
         get() = cards.map { it.face }
             .distinct()
             .count()
 
-    val numberOfSuits
+    private val numberOfSuits
         get() = cards.map { it.suit }
             .distinct()
             .count()
 
-    private val sortedCards = MutableCards(cards.toMutableList()).sortByValues()
+    protected val sortedCards = MutableCards(cards.toMutableList())
 
-//    fun isFlush() = numberOfSuits == 1
-//    fun isStraight() = maxFace - minFace == cards.size - 1
+    init {
+        sortedCards.sortByValues()
+    }
+
+    private fun isFlush() = numberOfSuits == 1
+    private fun isStraight() = maxFace - minFace == cards.size - 1
 
     open fun pokerCombination(): PokerCombination {
         return when (numberOfFaces) {
-            2 -> faces2()
-            else -> throw IllegalStateException("Number of faces (must be 1, 2, or 3): $numberOfFaces")
+            2 -> if (sortedCards.mutableCards[2].face == sortedCards.mutableCards[3].face) QUADS else FULL_HOUSE
+            3 -> if (sortedCards.mutableCards[1].face == sortedCards.mutableCards[2].face) TRIPS else TWO_PAIRS
+            4 -> PAIR
+            5 -> {
+                if (isFlush()) {
+                    if (isStraight()) {
+                        if (sortedCards.mutableCards[0].face == ACE) ROYAL_FLUSH else STRAIGHT_FLUSH
+                    } else {
+                        FLUSH
+                    }
+                } else {
+                    if (isStraight()) STRAIGHT else HIGH_CARD
+                }
+            }
+            else -> throw IllegalStateException("Number of faces (must be 2, 3, 4 or 5): $numberOfFaces")
         }
-    }
-
-    fun faces2(): PokerCombination {
-//        when (sortedCards)
-        return TRIPS
     }
 }
 
-class BottomRowCards(private val cards: List<Card>) : ResultCardsInRow(cards) {
+class BottomRowCards(private val cards: List<Card>) : RowCards(cards) {
     init {
         if (cards.size != 5) throw IllegalStateException("Number of bottom row cards (must be 5): ${cards.size}")
     }
@@ -58,7 +75,7 @@ class BottomRowCards(private val cards: List<Card>) : ResultCardsInRow(cards) {
     }
 }
 
-class MiddleRowCards(private val cards: List<Card>) : ResultCardsInRow(cards) {
+class MiddleRowCards(private val cards: List<Card>) : RowCards(cards) {
     init {
         if (cards.size != 5) throw IllegalStateException("Number of middle row cards (must be 5): ${cards.size}")
     }
@@ -79,7 +96,7 @@ class MiddleRowCards(private val cards: List<Card>) : ResultCardsInRow(cards) {
     }
 }
 
-class TopRowCards(private val cards: List<Card>) : ResultCardsInRow(cards) {
+class TopRowCards(private val cards: List<Card>) : RowCards(cards) {
     init {
         if (cards.size != 3) throw IllegalStateException("Number of top row cards (must be 3): ${cards.size}")
     }
@@ -94,19 +111,13 @@ class TopRowCards(private val cards: List<Card>) : ResultCardsInRow(cards) {
     }
 
     fun value(): Int {
+        val firstCardRank = sortedCards.mutableCards[0].face.rankAceHigh
+
         return when (pokerCombination()) {
             HIGH_CARD -> 0
-            PAIR -> topRowPair()
-            TRIPS -> topRowTrips()
+            PAIR -> if (firstCardRank >= 6) firstCardRank - 5 else 0
+            TRIPS -> firstCardRank + 8
             else -> throw IllegalStateException("Poker combination out of range for top row")
         }
-    }
-
-    private fun topRowPair(): Int {
-        return 9
-    }
-
-    private fun topRowTrips(): Int {
-        return 22
     }
 }

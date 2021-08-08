@@ -1,6 +1,11 @@
 package com.example.fantasy
 
 enum class CardFace(val abbr: Char, val rankAceHigh: Int) {
+    /*
+        !!! Do not change rankAceHigh values !!!
+        !!! Row values are based on it !!!
+     */
+
     ACE('A', 14),
     TWO('2', 2),
     THREE('3', 3),
