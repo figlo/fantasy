@@ -9,7 +9,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
 import com.example.fantasy.databinding.ActivityGameBinding
-import kotlinx.android.synthetic.main.activity_game.*
 
 class GameActivity : AppCompatActivity() {
     private lateinit var binding: ActivityGameBinding
@@ -31,13 +30,13 @@ class GameActivity : AppCompatActivity() {
 //        Log.d("hodnotyMin", playerCards.min.toString())
 //        Log.d("hodnotyMax", playerCards.max.toString())
 //        Log.d("farbyPocet", playerCards.numberOfSuits.toString())
-        textViewFantasyCards.text = playerCards.display()
-        buttonSort.visibility = View.VISIBLE
+        binding.textViewFantasyCards.text = playerCards.display()
+        binding.buttonSort.visibility = View.VISIBLE
 
-        buttonSort.setOnClickListener {
+        binding.buttonSort.setOnClickListener {
             playerCards.sort()
 //            playerCards.sortByValues()
-            textViewFantasyCards.text = playerCards.display()
+            binding.textViewFantasyCards.text = playerCards.display()
         }
     }
 

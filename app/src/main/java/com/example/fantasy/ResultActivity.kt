@@ -7,7 +7,6 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.fantasy.databinding.ActivityResultBinding
-import kotlinx.android.synthetic.main.activity_result.*
 
 class ResultActivity : AppCompatActivity() {
     private lateinit var binding: ActivityResultBinding
@@ -36,13 +35,12 @@ class ResultActivity : AppCompatActivity() {
             game.bottomRowCards = bottomRowCards
 
             game.evaluate()
-        } while (false)
-//    } while (bottomRowCards.value() == 0 || middleRowCards.value() == 0)
+        } while (game.bottomRowCards.value() == 0)
 
-        textViewTopRow.text = topRowCards.sortedCards.display()
-        textViewMiddleRow.text = middleRowCards.sortedCards.display()
-        textViewBottomRow.text = bottomRowCards.sortedCards.display()
-        textViewRowsValues.text = getString(R.string.result_values, if (game.isValidResult()) "OK " else "X " + game.resultValue.toString(), game.topRowValue().toString(), game.middleRowValue().toString(), game.bottomRowValue().toString())
+        binding.textViewTopRow.text = topRowCards.sortedCards.display()
+        binding.textViewMiddleRow.text = middleRowCards.sortedCards.display()
+        binding.textViewBottomRow.text = bottomRowCards.sortedCards.display()
+        binding.textViewRowsValues.text = getString(R.string.result_values, if (game.isValidResult()) "OK " else "X " + game.resultValue.toString(), game.topRowValue().toString(), game.middleRowValue().toString(), game.bottomRowValue().toString())
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

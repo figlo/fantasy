@@ -10,7 +10,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
 import com.example.fantasy.databinding.ActivityMainBinding
-import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -22,12 +21,12 @@ class MainActivity : AppCompatActivity() {
         val toolbar = binding.includedLayout.toolbar
         setSupportActionBar(toolbar)
 
-        buttonNewGame.setOnClickListener {
+        binding.buttonNewGame.setOnClickListener {
             val intent = Intent(this, GameActivity::class.java)
             startActivity(intent)
         }
 
-        buttonResult.setOnClickListener {
+        binding.buttonResult.setOnClickListener {
             val intent = Intent(this, ResultActivity::class.java)
             startActivity(intent)
         }
@@ -38,13 +37,13 @@ class MainActivity : AppCompatActivity() {
 
         val preferences = PreferenceManager.getDefaultSharedPreferences(this)
 
-        textViewNickName.text = preferences.getString("nickName", "")
+        binding.textViewNickName.text = preferences.getString("nickName", "")
 
         val spinnerValue = preferences.getString("number_of_cards_in_fantasy_land", "14") ?: "14"
         val spinnerIndex = spinnerValue.toInt() - 13
-        spinnerNumberOfFantasyLandCards.setSelection(spinnerIndex)
+        binding.spinnerNumberOfFantasyLandCards.setSelection(spinnerIndex)
 
-        spinnerNumberOfFantasyLandCards.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        binding.spinnerNumberOfFantasyLandCards.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 val selectedItem = parent?.getItemAtPosition(position).toString()
                 preferences.edit().putString("number_of_cards_in_fantasy_land", selectedItem).apply()
