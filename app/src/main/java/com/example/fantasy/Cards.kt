@@ -8,24 +8,7 @@ class Card(val face: CardFace, val suit: CardSuit) {
     override fun toString() = "${face.abbr}${suit.abbr}"
 }
 
-open class Cards(private val cards: List<Card>) {
-    fun display() = HtmlCompat.fromHtml(
-        cards.joinToString(" ") { it.htmlColored },
-        HtmlCompat.FROM_HTML_MODE_LEGACY
-    )
-
-    override fun toString(): String {
-        var result = "["
-        for ((index, card) in cards.withIndex()) {
-            if (index > 0) result += " "
-            result += card
-        }
-        result += "]"
-        return result
-    }
-}
-
-open class MutableCards(val mutableCards: MutableList<Card>) : Cards(mutableCards) {
+open class Cards(val cards: MutableList<Card>) {
     private var sortSwitch = true
 
     fun sort() {
@@ -43,31 +26,46 @@ open class MutableCards(val mutableCards: MutableList<Card>) : Cards(mutableCard
         sortByColor()
     }
 
-    private fun sortByRank() = mutableCards.sortByDescending { it.face.rankAceHigh }
+    private fun sortByRank() = cards.sortByDescending { it.face.rankAceHigh }
 
-    private fun sortByColor() = mutableCards.sortBy { it.suit }
+    private fun sortByColor() = cards.sortBy { it.suit }
 
     fun sortByValues() {
         val tempList =
-            mutableCards.sortedBy { -it.face.rankAceHigh }
+            cards.sortedBy { -it.face.rankAceHigh }
                 .groupingBy { it.face }
                 .eachCount()
                 .toList()
                 .sortedBy { (_, value) -> -value }
-        val tempCards = mutableCards.toMutableList()
-        mutableCards.clear()
+        val tempCards = cards.toMutableList()
+        cards.clear()
         var card: Card
         for ((key, value) in tempList) {
             for (i in 1..value) {
                 card = tempCards.first { it.face == key }
                 tempCards.remove(card)
-                mutableCards.add(card)
+                cards.add(card)
             }
         }
     }
+
+    fun display() = HtmlCompat.fromHtml(
+        cards.joinToString(" ") { it.htmlColored },
+        HtmlCompat.FROM_HTML_MODE_LEGACY
+    )
+
+    override fun toString(): String {
+        var result = "["
+        for ((index, card) in cards.withIndex()) {
+            if (index > 0) result += " "
+            result += card
+        }
+        result += "]"
+        return result
+    }
 }
 
-class Deck(private val deckCards: MutableList<Card> = mutableListOf()) : MutableCards(deckCards) {
+class Deck(private val deckCards: MutableList<Card> = mutableListOf()) : Cards(deckCards) {
     fun loadFull() {
         deckCards.clear()
         CardFace.values().forEach { cardFace ->
@@ -81,7 +79,7 @@ class Deck(private val deckCards: MutableList<Card> = mutableListOf()) : Mutable
         deckCards.shuffle()
     }
 
-    fun drawCards(quantity: Int): MutableCards {
+    fun drawCards(quantity: Int): Cards {
         val drawnCards: MutableList<Card> = mutableListOf()
         for (i in 1..quantity) {
             deckCards.random().let {
@@ -89,6 +87,6 @@ class Deck(private val deckCards: MutableList<Card> = mutableListOf()) : Mutable
                 deckCards.remove(it)
             }
         }
-        return MutableCards(drawnCards)
+        return Cards(drawnCards)
     }
 }
