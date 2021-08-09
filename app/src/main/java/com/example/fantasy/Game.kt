@@ -7,29 +7,15 @@ class Game {
     lateinit var middleRowCards: MiddleRowCards
     lateinit var bottomRowCards: BottomRowCards
 
-    fun topRowValue() = topRowCards.value()
-    fun middleRowValue() = middleRowCards.value()
-    fun bottomRowValue() = bottomRowCards.value()
-
-    private fun topRowPokerCombination() = topRowCards.pokerCombination()
-    private fun middleRowPokerCombination() = middleRowCards.pokerCombination()
-    private fun bottomRowPokerCombination() = bottomRowCards.pokerCombination()
-
-    var resultValue = 0
-
-    fun evaluate() {
-        resultValue =  when {
-            !isValidResult() -> 0
-            else -> topRowValue() + middleRowValue() + bottomRowValue()
-        }
-    }
+    val resultValue: Int
+        get() = topRowCards.value() + middleRowCards.value() + bottomRowCards.value()
 
     fun isValidResult(): Boolean {
         return when {
-            middleRowPokerCombination() > bottomRowPokerCombination() -> false
-            topRowPokerCombination() > middleRowPokerCombination() -> false
-            middleRowPokerCombination() == bottomRowPokerCombination() && middleRowCards.isHigherThen(bottomRowCards) -> false
-            topRowPokerCombination() == middleRowPokerCombination() && topRowCards.isHigherThen(middleRowCards) -> false
+            middleRowCards.pokerCombination() > bottomRowCards.pokerCombination() -> false
+            topRowCards.pokerCombination() > middleRowCards.pokerCombination() -> false
+            middleRowCards.pokerCombination() == bottomRowCards.pokerCombination() && middleRowCards isHigherThen bottomRowCards -> false
+            topRowCards.pokerCombination() == middleRowCards.pokerCombination() && topRowCards isHigherThen middleRowCards -> false
             else -> true
         }
     }

@@ -19,28 +19,17 @@ class ResultActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         val game = Game()
-
-        var topRowCards: TopRowCards
-        var middleRowCards: MiddleRowCards
-        var bottomRowCards: BottomRowCards
-
         do {
             game.start()
-            topRowCards = TopRowCards(game.deck.drawCards(3).cards)
-            middleRowCards = MiddleRowCards(game.deck.drawCards(5).cards)
-            bottomRowCards = BottomRowCards(game.deck.drawCards(5).cards)
-
-            game.topRowCards = topRowCards
-            game.middleRowCards = middleRowCards
-            game.bottomRowCards = bottomRowCards
-
-            game.evaluate()
+            game.topRowCards = TopRowCards(game.deck.drawCards(3).cards)
+            game.middleRowCards = MiddleRowCards(game.deck.drawCards(5).cards)
+            game.bottomRowCards = BottomRowCards(game.deck.drawCards(5).cards)
         } while (game.bottomRowCards.value() == 0)
 
-        binding.textViewTopRow.text = topRowCards.sortedCards.display()
-        binding.textViewMiddleRow.text = middleRowCards.sortedCards.display()
-        binding.textViewBottomRow.text = bottomRowCards.sortedCards.display()
-        binding.textViewRowsValues.text = getString(R.string.result_values, if (game.isValidResult()) "OK " else "X " + game.resultValue.toString(), game.topRowValue().toString(), game.middleRowValue().toString(), game.bottomRowValue().toString())
+        binding.textViewTopRow.text = game.topRowCards.sortedCards.display()
+        binding.textViewMiddleRow.text = game.middleRowCards.sortedCards.display()
+        binding.textViewBottomRow.text = game.bottomRowCards.sortedCards.display()
+        binding.textViewRowsValues.text = getString(R.string.result_values, if (game.isValidResult()) "OK " else "X " + game.resultValue.toString(), game.topRowCards.value().toString(), game.middleRowCards.value().toString(), game.bottomRowCards.value().toString())
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
