@@ -14,8 +14,8 @@ class Game {
         return when {
             middleRowCards.pokerCombination() > bottomRowCards.pokerCombination() -> false
             topRowCards.pokerCombination() > middleRowCards.pokerCombination() -> false
-            middleRowCards.pokerCombination() == bottomRowCards.pokerCombination() && middleRowCards isHigherThen bottomRowCards -> false
-            topRowCards.pokerCombination() == middleRowCards.pokerCombination() && topRowCards isHigherThen middleRowCards -> false
+            middleRowCards.pokerCombination() == bottomRowCards.pokerCombination() && middleRowCards isHigherThan bottomRowCards -> false
+            topRowCards.pokerCombination() == middleRowCards.pokerCombination() && topRowCards isHigherThan middleRowCards -> false
             else -> true
         }
     }

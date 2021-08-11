@@ -65,26 +65,27 @@ open class Cards(val cards: MutableList<Card>) {
     }
 }
 
-class Deck(private val deckCards: MutableList<Card> = mutableListOf()) : Cards(deckCards) {
+class Deck(cards: MutableList<Card> = mutableListOf()) : Cards(cards) {
     fun loadFull() {
-        deckCards.clear()
+        cards.clear()
         CardFace.values().forEach { cardFace ->
             CardSuit.values().forEach { cardSuit ->
-                deckCards.add(Card(cardFace, cardSuit))
+                cards.add(Card(cardFace, cardSuit))
             }
         }
     }
 
     fun shuffle() {
-        deckCards.shuffle()
+        cards.shuffle()
     }
 
     fun drawCards(quantity: Int): Cards {
+        require(quantity > 0) { "quantity (must be > 0): $quantity" }
         val drawnCards: MutableList<Card> = mutableListOf()
         for (i in 1..quantity) {
-            deckCards.random().let {
+            cards.random().let {
                 drawnCards.add(it)
-                deckCards.remove(it)
+                cards.remove(it)
             }
         }
         return Cards(drawnCards)

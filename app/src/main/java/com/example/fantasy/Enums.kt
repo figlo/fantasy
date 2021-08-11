@@ -29,6 +29,11 @@ enum class CardSuit(val abbr: Char, val hexColor: String) {
 }
 
 enum class PokerCombination {
+    /*
+        !!! Do not change order !!!
+        !!! Row values are based on it !!!
+     */
+
     HIGH_CARD,
     PAIR,
     TWO_PAIRS,

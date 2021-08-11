@@ -3,23 +3,23 @@ package com.example.fantasy
 import com.example.fantasy.CardFace.*
 import com.example.fantasy.PokerCombination.*
 
-open class RowCards(private val rowCards: MutableList<Card>) : Cards(rowCards) {
+open class RowCards(cards: MutableList<Card>) : Cards(cards) {
     init {
-        require(rowCards.size == 3 || rowCards.size == 5) { "Number of row cards (must be 3 or 5): ${rowCards.size}" }
+        require(cards.size == 3 || cards.size == 5) { "Number of row cards (must be 3 or 5): ${cards.size}" }
     }
 
     protected val numberOfFaces
-        get() = rowCards.map { it.face }
+        get() = cards.map { it.face }
             .distinct()
             .count()
 
-    val sortedCards = Cards(rowCards)
+    val sortedCards = Cards(cards)
 
     init {
         sortedCards.sortByValues()
     }
 
-    infix fun isHigherThen(otherRowCards: Cards): Boolean {
+    infix fun isHigherThan(otherRowCards: Cards): Boolean {
         var rank: Int
         var otherRank: Int
         for ((index, card) in sortedCards.cards.withIndex()) {
@@ -40,9 +40,9 @@ open class RowCards(private val rowCards: MutableList<Card>) : Cards(rowCards) {
             3 -> if (sortedCards.cards[1].face == sortedCards.cards[2].face) TRIPS else TWO_PAIRS
             4 -> PAIR
             5 -> {
-                val minFace = rowCards.map { it.face.rankAceHigh }.minOrNull() ?: throw IllegalArgumentException("minFace must be > 0")
-                val maxFace = rowCards.map { it.face.rankAceHigh }.maxOrNull() ?: throw IllegalArgumentException("maxFace must be > 0")
-                val numberOfSuits = rowCards.map { it.suit }.distinct().count()
+                val minFace = cards.map { it.face.rankAceHigh }.minOrNull() ?: throw IllegalArgumentException("minFace must be > 0")
+                val maxFace = cards.map { it.face.rankAceHigh }.maxOrNull() ?: throw IllegalArgumentException("maxFace must be > 0")
+                val numberOfSuits = cards.map { it.suit }.distinct().count()
                 fun isFlush() = numberOfSuits == 1
                 fun isStraight() = maxFace - minFace == 4 || (sortedCards.cards[0].face == ACE && sortedCards.cards[1].face == FIVE)
                 if (isFlush()) {
@@ -60,9 +60,9 @@ open class RowCards(private val rowCards: MutableList<Card>) : Cards(rowCards) {
     }
 }
 
-class TopRowCards(topRowCards: MutableList<Card>) : RowCards(topRowCards) {
+class TopRowCards(cards: MutableList<Card>) : RowCards(cards) {
     init {
-        if (topRowCards.size != 3) throw IllegalArgumentException("Number of top row cards (must be 3): ${topRowCards.size}")
+        require(cards.size == 3) { "Number of top row cards (must be 3): ${cards.size}" }
     }
 
     override fun pokerCombination(): PokerCombination {
@@ -86,9 +86,9 @@ class TopRowCards(topRowCards: MutableList<Card>) : RowCards(topRowCards) {
     }
 }
 
-class MiddleRowCards(middleRowCards: MutableList<Card>) : RowCards(middleRowCards) {
+class MiddleRowCards(cards: MutableList<Card>) : RowCards(cards) {
     init {
-        if (middleRowCards.size != 5) throw IllegalArgumentException("Number of middle row cards (must be 5): ${middleRowCards.size}")
+        require(cards.size == 5) { "Number of middle row cards (must be 5): ${cards.size}" }
     }
 
     fun value(): Int {
@@ -107,9 +107,9 @@ class MiddleRowCards(middleRowCards: MutableList<Card>) : RowCards(middleRowCard
     }
 }
 
-class BottomRowCards(bottomRowCards: MutableList<Card>) : RowCards(bottomRowCards) {
+class BottomRowCards(cards: MutableList<Card>) : RowCards(cards) {
     init {
-        if (bottomRowCards.size != 5) throw IllegalArgumentException("Number of bottom row cards (must be 5): ${bottomRowCards.size}")
+        require(cards.size == 5) { "Number of bottom row cards (must be 5): ${cards.size}" }
     }
 
     fun value(): Int {

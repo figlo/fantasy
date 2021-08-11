@@ -19,7 +19,7 @@ class ResultActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         val game = Game()
-        do {
+        do {                                    // TODO simulating result, delete later
             game.start()
             game.topRowCards = TopRowCards(game.deck.drawCards(3).cards)
             game.middleRowCards = MiddleRowCards(game.deck.drawCards(5).cards)
