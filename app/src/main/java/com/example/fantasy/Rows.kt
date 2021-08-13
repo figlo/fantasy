@@ -8,16 +8,9 @@ open class RowCards(cards: MutableList<Card>) : Cards(cards) {
         require(cards.size == 3 || cards.size == 5) { "Number of row cards (must be 3 or 5): ${cards.size}" }
     }
 
-    protected val numberOfFaces
-        get() = cards.map { it.face }
-            .distinct()
-            .count()
+    protected val numberOfFaces = cards.map { it.face }.distinct().count()
 
-    val sortedCards = Cards(cards)
-
-    init {
-        sortedCards.sortByValues()
-    }
+    val sortedCards = Cards(cards).also { it.sortByValues() }
 
     infix fun isHigherThan(otherRowCards: Cards): Boolean {
         var rank: Int

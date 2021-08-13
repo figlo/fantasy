@@ -2,7 +2,7 @@ package com.example.fantasy
 
 enum class CardFace(val abbr: Char, val rankAceHigh: Int) {
     /*
-        !!! Do not change rankAceHigh values !!!
+        !!! Do not change order or rankAceHigh values !!!
         !!! Row values are based on it !!!
      */
 

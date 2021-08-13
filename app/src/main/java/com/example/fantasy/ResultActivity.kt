@@ -19,12 +19,12 @@ class ResultActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         val game = Game()
-        do {                                    // TODO simulating result, delete later
+        do {
             game.start()
             game.topRowCards = TopRowCards(game.deck.drawCards(3).cards)
             game.middleRowCards = MiddleRowCards(game.deck.drawCards(5).cards)
             game.bottomRowCards = BottomRowCards(game.deck.drawCards(5).cards)
-        } while (game.bottomRowCards.value() == 0)
+        } while (game.bottomRowCards.value() == 0)                          // TODO simulating result, delete later
 
         binding.textViewTopRow.text = game.topRowCards.sortedCards.display()
         binding.textViewMiddleRow.text = game.middleRowCards.sortedCards.display()

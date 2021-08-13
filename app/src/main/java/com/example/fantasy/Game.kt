@@ -7,8 +7,7 @@ class Game {
     lateinit var middleRowCards: MiddleRowCards
     lateinit var bottomRowCards: BottomRowCards
 
-    val resultValue: Int
-        get() = topRowCards.value() + middleRowCards.value() + bottomRowCards.value()
+    val resultValue by lazy { topRowCards.value() + middleRowCards.value() + bottomRowCards.value() }
 
     fun isValidResult(): Boolean {
         return when {
