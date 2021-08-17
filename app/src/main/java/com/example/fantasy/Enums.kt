@@ -25,7 +25,7 @@ enum class CardSuit(val abbr: Char, val hexColor: String) {
     SPADES('s', "#000000"),         // black
     HEARTS('h', "#ff0000"),         // red
     DIAMONDS('d', "#0000ff"),       // blue
-    CLUBS('c', "#00ff00");          // green
+    CLUBS('c', "#00bb00");          // green
 }
 
 enum class PokerCombination {

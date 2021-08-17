@@ -21,13 +21,18 @@ class MainActivity : AppCompatActivity() {
         val toolbar = binding.includedLayout.toolbar
         setSupportActionBar(toolbar)
 
+        val preferences = PreferenceManager.getDefaultSharedPreferences(this)
+        val nickName = preferences.getString("nickName", "")
+
         binding.buttonNewGame.setOnClickListener {
             val intent = Intent(this, GameActivity::class.java)
+            intent.putExtra("nick", nickName)
             startActivity(intent)
         }
 
         binding.buttonResult.setOnClickListener {
             val intent = Intent(this, ResultActivity::class.java)
+            intent.putExtra("nick", nickName)
             startActivity(intent)
         }
     }

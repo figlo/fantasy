@@ -18,18 +18,38 @@ class ResultActivity : AppCompatActivity() {
         val toolbar = binding.includedLayout.toolbar
         setSupportActionBar(toolbar)
 
-        val game = Game()
-        do {
-            game.start()
-            game.topRowCards = TopRowCards(game.deck.drawCards(3).cards)
-            game.middleRowCards = MiddleRowCards(game.deck.drawCards(5).cards)
-            game.bottomRowCards = BottomRowCards(game.deck.drawCards(5).cards)
-        } while (game.bottomRowCards.value() == 0)                          // TODO simulating result, delete later
+        val nick = intent.getStringExtra("nick").toString()
+        val player1 = Player(nick)
+        val player2 = Player("Player 2")
+        val players = Players(mutableListOf(player1, player2))
 
-        binding.textViewTopRow.text = game.topRowCards.sortedCards.display()
-        binding.textViewMiddleRow.text = game.middleRowCards.sortedCards.display()
-        binding.textViewBottomRow.text = game.bottomRowCards.sortedCards.display()
-        binding.textViewRowsValues.text = getString(R.string.result_values, if (game.isValidResult()) "OK " else "X " + game.resultValue.toString(), game.topRowCards.value().toString(), game.middleRowCards.value().toString(), game.bottomRowCards.value().toString())
+        val game = Game(players)
+        game.start()
+
+        for (player in players.players) {
+            player.topRowCards = TopRowCards(game.deck.drawCards(3).cards)
+            player.middleRowCards = MiddleRowCards(game.deck.drawCards(5).cards)
+            player.bottomRowCards = BottomRowCards(game.deck.drawCards(5).cards)
+
+            player.rowsValuesText = getString(
+                R.string.result_values,
+                player.nick,
+                if (player.isValidResult()) "OK " else "X " + player.resultValue.toString(),
+                player.topRowCards.value().toString(),
+                player.middleRowCards.value().toString(),
+                player.bottomRowCards.value().toString()
+            )
+        }
+
+        binding.textViewTopRow.text = player1.topRowText
+        binding.textViewMiddleRow.text = player1.middleRowText
+        binding.textViewBottomRow.text = player1.bottomRowText
+        binding.textViewRowsValues.text = player1.rowsValuesText
+
+        binding.textViewTopRow2.text = player2.topRowText
+        binding.textViewMiddleRow2.text = player2.middleRowText
+        binding.textViewBottomRow2.text = player2.bottomRowText
+        binding.textViewRowsValues2.text = player2.rowsValuesText
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

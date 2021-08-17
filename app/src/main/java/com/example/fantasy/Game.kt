@@ -1,26 +1,10 @@
 package com.example.fantasy
 
-class Game {
+class Game(val players: Players) {
     val deck = Deck()
-
-    lateinit var topRowCards: TopRowCards
-    lateinit var middleRowCards: MiddleRowCards
-    lateinit var bottomRowCards: BottomRowCards
-
-    val resultValue by lazy { topRowCards.value() + middleRowCards.value() + bottomRowCards.value() }
-
-    fun isValidResult(): Boolean {
-        return when {
-            middleRowCards.pokerCombination() > bottomRowCards.pokerCombination() -> false
-            topRowCards.pokerCombination() > middleRowCards.pokerCombination() -> false
-            middleRowCards.pokerCombination() == bottomRowCards.pokerCombination() && middleRowCards isHigherThan bottomRowCards -> false
-            topRowCards.pokerCombination() == middleRowCards.pokerCombination() && topRowCards isHigherThan middleRowCards -> false
-            else -> true
-        }
-    }
 
     fun start() {
         deck.loadFull()
-        deck.shuffle()
+        deck.cards.shuffle()
     }
 }

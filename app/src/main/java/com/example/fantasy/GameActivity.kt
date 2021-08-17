@@ -23,7 +23,11 @@ class GameActivity : AppCompatActivity() {
         val preferences = PreferenceManager.getDefaultSharedPreferences(this)
         val numberOfCardsInFantasyLand = preferences.getString("number_of_cards_in_fantasy_land", "14")?.toInt()!!
 
-        val game = Game()
+        val nick = intent.getStringExtra("nick").toString()
+        val player = Player(nick)
+        val players = Players(mutableListOf(player))
+
+        val game = Game(players)
         game.start()
 
         val playerCards = game.deck.drawCards(numberOfCardsInFantasyLand)

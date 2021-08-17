@@ -2,7 +2,7 @@ package com.example.fantasy
 
 import androidx.core.text.HtmlCompat
 
-class Card(val face: CardFace, val suit: CardSuit) {
+data class Card(val face: CardFace, val suit: CardSuit) {
     val htmlColored = "<font color=${suit.hexColor}>${face.abbr}${suit.abbr}</font>"
 
     override fun toString() = "${face.abbr}${suit.abbr}"
@@ -75,12 +75,8 @@ class Deck(cards: MutableList<Card> = mutableListOf()) : Cards(cards) {
         }
     }
 
-    fun shuffle() {
-        cards.shuffle()
-    }
-
     fun drawCards(quantity: Int): Cards {
-        require(quantity > 0) { "quantity (must be > 0): $quantity" }
+        require(quantity > 0 && quantity <= cards.size) { "quantity (must be > 0 and <= size of deck.cards): $quantity" }
         val drawnCards: MutableList<Card> = mutableListOf()
         for (i in 1..quantity) {
             cards.random().let {

@@ -6,7 +6,7 @@
     <string name="start_game">Start game</string>
     <string name="result">Result</string>
     <string name="sort">Sort</string>
-    <string name="result_values">Result: %s (%s %s %s)</string>
+    <string name="result_values">%s: %s (%s %s %s)</string>
 
     <!-- Menu -->
     <string name="settings">Settings</string>
