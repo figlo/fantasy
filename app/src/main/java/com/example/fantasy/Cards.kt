@@ -30,23 +30,8 @@ open class Cards(val cards: MutableList<Card>) {
 
     private fun sortByColor() = cards.sortBy { it.suit }
 
-    fun sortByValues() {
-        val tempList =
-            cards.sortedBy { -it.face.rankAceHigh }
-                .groupingBy { it.face }
-                .eachCount()
-                .toList()
-                .sortedBy { (_, value) -> -value }
-        val tempCards = cards.toMutableList()
-        cards.clear()
-        var card: Card
-        for ((key, value) in tempList) {
-            for (i in 1..value) {
-                card = tempCards.first { it.face == key }
-                tempCards.remove(card)
-                cards.add(card)
-            }
-        }
+    fun sortByValues() {            // TODO protected?
+        cards.sortWith(compareByDescending<Card> { card -> cards.count { it.face == card.face } }.thenByDescending { it.face.rankAceHigh })
     }
 
     fun display() = HtmlCompat.fromHtml(
