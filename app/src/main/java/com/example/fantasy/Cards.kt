@@ -16,38 +16,18 @@ open class Cards(val cards: MutableList<Card>) {
         sortSwitch = !sortSwitch
     }
 
-    private fun sortByRankAndColor() {
-        sortByColor()
-        sortByRank()
-    }
+    private fun sortByRankAndColor() = cards.sortWith(compareBy({ -it.face.rankAceHigh }, { it.suit }))
 
-    private fun sortByColorAndRank() {
-        sortByRank()
-        sortByColor()
-    }
+    private fun sortByColorAndRank() = cards.sortWith(compareBy({ it.suit }, { -it.face.rankAceHigh }))
 
-    private fun sortByRank() = cards.sortByDescending { it.face.rankAceHigh }
-
-    private fun sortByColor() = cards.sortBy { it.suit }
-
-    fun sortByValues() {            // TODO protected?
-        cards.sortWith(compareByDescending<Card> { card -> cards.count { it.face == card.face } }.thenByDescending { it.face.rankAceHigh })
-    }
+    protected fun sortByCountAndRank() = cards.sortWith(compareBy({ card -> -cards.count { it.face == card.face } }, { -it.face.rankAceHigh }))
 
     fun display() = HtmlCompat.fromHtml(
         cards.joinToString(" ") { it.htmlColored },
         HtmlCompat.FROM_HTML_MODE_LEGACY
     )
 
-    override fun toString(): String {
-        var result = "["
-        for ((index, card) in cards.withIndex()) {
-            if (index > 0) result += " "
-            result += card
-        }
-        result += "]"
-        return result
-    }
+    override fun toString() = cards.joinToString(" ", "[", "]")
 }
 
 class Deck(cards: MutableList<Card> = mutableListOf()) : Cards(cards) {

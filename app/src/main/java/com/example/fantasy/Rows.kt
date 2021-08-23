@@ -10,7 +10,7 @@ open class RowCards(cards: MutableList<Card>) : Cards(cards) {
 
     protected val numberOfFaces = cards.map { it.face }.distinct().count()
 
-    val sortedCards = Cards(cards).also { it.sortByValues() }
+    val sortedCards = Cards(cards).apply { sortByCountAndRank() }
 
     infix fun isHigherThan(otherRowCards: Cards): Boolean {
         var rank: Int

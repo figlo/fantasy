@@ -25,15 +25,17 @@ class MainActivity : AppCompatActivity() {
         val nickName = preferences.getString("nickName", "")
 
         binding.buttonNewGame.setOnClickListener {
-            val intent = Intent(this, GameActivity::class.java)
-            intent.putExtra("nick", nickName)
-            startActivity(intent)
+            Intent(this, GameActivity::class.java).let { intent ->
+                intent.putExtra("nick", nickName)
+                startActivity(intent)
+            }
         }
 
         binding.buttonResult.setOnClickListener {
-            val intent = Intent(this, ResultActivity::class.java)
-            intent.putExtra("nick", nickName)
-            startActivity(intent)
+            Intent(this, ResultActivity::class.java).let { intent ->
+                intent.putExtra("nick", nickName)
+                startActivity(intent)
+            }
         }
     }
 

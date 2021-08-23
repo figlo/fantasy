@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
@@ -23,24 +22,24 @@ class GameActivity : AppCompatActivity() {
         val preferences = PreferenceManager.getDefaultSharedPreferences(this)
         val numberOfCardsInFantasyLand = preferences.getString("number_of_cards_in_fantasy_land", "14")?.toInt()!!
 
-        val nick = intent.getStringExtra("nick").toString()
-        val player = Player(nick)
-        val players = Players(mutableListOf(player))
+//        val nick = intent.getStringExtra("nick").toString()
+//        val player = Player(nick)
+//        val players = Players(mutableListOf(player))
 
-        val game = Game(players)
-        game.start()
+        Game.start()
 
-        val playerCards = game.deck.drawCards(numberOfCardsInFantasyLand)
-//        Log.d("hodnotyMin", playerCards.min.toString())
+        val playerCards = Game.deck.drawCards(numberOfCardsInFantasyLand)
+//        Log.d("hodnoty", playerCards.toString())
 //        Log.d("hodnotyMax", playerCards.max.toString())
 //        Log.d("farbyPocet", playerCards.numberOfSuits.toString())
-        binding.textViewFantasyCards.text = playerCards.display()
-        binding.buttonSort.visibility = View.VISIBLE
 
-        binding.buttonSort.setOnClickListener {
-            playerCards.sort()
-//            playerCards.sortByValues()
-            binding.textViewFantasyCards.text = playerCards.display()
+        binding.apply {
+            textViewFantasyCards.text = playerCards.display()
+
+            buttonSort.setOnClickListener {
+                playerCards.sort()
+                binding.textViewFantasyCards.text = playerCards.display()
+            }
         }
     }
 

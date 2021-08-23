@@ -1,6 +1,6 @@
 package com.example.fantasy
 
-class Game(val players: Players) {
+object Game {
     val deck = Deck()
 
     fun start() {
