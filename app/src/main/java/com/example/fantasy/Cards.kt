@@ -43,7 +43,7 @@ class Deck(cards: MutableList<Card> = mutableListOf()) : Cards(cards) {
     fun drawCards(quantity: Int): Cards {
         require(quantity > 0 && quantity <= cards.size) { "quantity (must be > 0 and <= size of deck.cards): $quantity" }
         val drawnCards: MutableList<Card> = mutableListOf()
-        for (i in 1..quantity) {
+        (1..quantity).forEach { _ ->
             cards.random().let {
                 drawnCards.add(it)
                 cards.remove(it)

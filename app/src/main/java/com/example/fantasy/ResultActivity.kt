@@ -25,7 +25,7 @@ class ResultActivity : AppCompatActivity() {
 
         Game.start()
 
-        for (player in players.players) {
+        players.players.forEach { player ->
             player.apply {
                 topRowCards = TopRowCards(Game.deck.drawCards(3).cards)
                 middleRowCards = MiddleRowCards(Game.deck.drawCards(5).cards)

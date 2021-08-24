@@ -15,14 +15,11 @@ open class RowCards(cards: MutableList<Card>) : Cards(cards) {
     infix fun isHigherThan(otherRowCards: Cards): Boolean {
         var rank: Int
         var otherRank: Int
-        for ((index, card) in sortedCards.cards.withIndex()) {
+        sortedCards.cards.forEach { card ->
             rank = card.face.rankAceHigh
-            otherRank = otherRowCards.cards.elementAt(index).face.rankAceHigh
-            return when {
-                rank > otherRank -> true
-                rank < otherRank -> false
-                else -> continue
-            }
+            otherRank = otherRowCards.cards.elementAt(cards.indexOf(card)).face.rankAceHigh
+            if (rank > otherRank) return true
+            if (rank < otherRank) return false
         }
         return false
     }
