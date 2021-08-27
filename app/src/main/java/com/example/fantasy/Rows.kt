@@ -8,8 +8,6 @@ open class RowCards(cards: MutableList<Card>) : Cards(cards) {
         require(cards.size == 3 || cards.size == 5) { "Number of row cards (must be 3 or 5): ${cards.size}" }
     }
 
-    protected val numberOfFaces = cards.map { it.face }.distinct().count()
-
     val sortedCards = Cards(cards).apply { sortByCountAndRank() }
 
     infix fun isHigherThan(otherRowCards: Cards): Boolean {
@@ -23,6 +21,8 @@ open class RowCards(cards: MutableList<Card>) : Cards(cards) {
         }
         return false
     }
+
+    protected val numberOfFaces = cards.map { it.face }.distinct().count()
 
     open fun pokerCombination(): PokerCombination {
         return when (numberOfFaces) {

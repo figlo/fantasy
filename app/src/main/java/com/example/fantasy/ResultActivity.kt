@@ -21,20 +21,28 @@ class ResultActivity : AppCompatActivity() {
         val nick = intent.getStringExtra("nick").toString()
         val player1 = Player(nick)
         val player2 = Player("Player 2")
-        val players = Players(mutableListOf(player1, player2))
+        val players = Players(listOf(player1, player2))
 
         Game.start()
 
+        var resultType: String
         players.players.forEach { player ->
-            player.apply {
+            player.result.apply {
                 topRowCards = TopRowCards(Game.deck.drawCards(3).cards)
                 middleRowCards = MiddleRowCards(Game.deck.drawCards(5).cards)
                 bottomRowCards = BottomRowCards(Game.deck.drawCards(5).cards)
 
+                resultType = when {
+                    isGameFantasy() -> "F"
+                    isFantasyFantasy() -> "FF"
+                    isValidResult() -> "OK"
+                    else -> "X"
+                }
+
                 rowsValuesText = getString(
                     R.string.result_values,
                     nick,
-                    if (isValidResult()) "OK " else "X " + resultValue.toString(),
+                    resultType + " " + resultValue.toString(),
                     topRowCards.value().toString(),
                     middleRowCards.value().toString(),
                     bottomRowCards.value().toString()
@@ -43,15 +51,15 @@ class ResultActivity : AppCompatActivity() {
         }
 
         binding.apply {
-            textViewTopRow.text = player1.topRowText
-            textViewMiddleRow.text = player1.middleRowText
-            textViewBottomRow.text = player1.bottomRowText
-            textViewRowsValues.text = player1.rowsValuesText
+            textViewTopRow.text = player1.result.topRowCards.sortedCards.display()
+            textViewMiddleRow.text = player1.result.middleRowCards.sortedCards.display()
+            textViewBottomRow.text = player1.result.bottomRowCards.sortedCards.display()
+            textViewRowsValues.text = player1.result.rowsValuesText
 
-            textViewTopRow2.text = player2.topRowText
-            textViewMiddleRow2.text = player2.middleRowText
-            textViewBottomRow2.text = player2.bottomRowText
-            textViewRowsValues2.text = player2.rowsValuesText
+            textViewTopRow2.text = player2.result.topRowCards.sortedCards.display()
+            textViewMiddleRow2.text = player2.result.middleRowCards.sortedCards.display()
+            textViewBottomRow2.text = player2.result.bottomRowCards.sortedCards.display()
+            textViewRowsValues2.text = player2.result.rowsValuesText
         }
     }
 
