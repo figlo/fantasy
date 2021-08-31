@@ -1,6 +1,7 @@
 package com.example.fantasy
 
-import com.example.fantasy.CardFace.*
+import com.example.fantasy.CardFace.ACE
+import com.example.fantasy.CardFace.FIVE
 import com.example.fantasy.PokerCombination.*
 
 open class RowCards(cards: MutableList<Card>) : Cards(cards) {
@@ -25,26 +26,28 @@ open class RowCards(cards: MutableList<Card>) : Cards(cards) {
     protected val numberOfFaces = cards.map { it.face }.distinct().count()
 
     open fun pokerCombination(): PokerCombination {
+        fun numberOfFacesIsFive(): PokerCombination {
+            val minFace = cards.map { it.face.rankAceHigh }.minOrNull() ?: throw IllegalArgumentException("minFace must be > 0")
+            val maxFace = cards.map { it.face.rankAceHigh }.maxOrNull() ?: throw IllegalArgumentException("maxFace must be > 0")
+            val numberOfSuits = cards.map { it.suit }.distinct().count()
+            fun isFlush() = numberOfSuits == 1
+            fun isStraight() = maxFace - minFace == 4 || (sortedCards.cards[0].face == ACE && sortedCards.cards[1].face == FIVE)
+            return if (isFlush()) {
+                if (isStraight()) {
+                    if (sortedCards.cards[0].face == ACE) ROYAL_FLUSH else STRAIGHT_FLUSH
+                } else {
+                    FLUSH
+                }
+            } else {
+                if (isStraight()) STRAIGHT else HIGH_CARD
+            }
+        }
+
         return when (numberOfFaces) {
             2 -> if (sortedCards.cards[2].face == sortedCards.cards[3].face) QUADS else FULL_HOUSE
             3 -> if (sortedCards.cards[1].face == sortedCards.cards[2].face) TRIPS else TWO_PAIRS
             4 -> PAIR
-            5 -> {
-                val minFace = cards.map { it.face.rankAceHigh }.minOrNull() ?: throw IllegalArgumentException("minFace must be > 0")
-                val maxFace = cards.map { it.face.rankAceHigh }.maxOrNull() ?: throw IllegalArgumentException("maxFace must be > 0")
-                val numberOfSuits = cards.map { it.suit }.distinct().count()
-                fun isFlush() = numberOfSuits == 1
-                fun isStraight() = maxFace - minFace == 4 || (sortedCards.cards[0].face == ACE && sortedCards.cards[1].face == FIVE)
-                if (isFlush()) {
-                    if (isStraight()) {
-                        if (sortedCards.cards[0].face == ACE) ROYAL_FLUSH else STRAIGHT_FLUSH
-                    } else {
-                        FLUSH
-                    }
-                } else {
-                    if (isStraight()) STRAIGHT else HIGH_CARD
-                }
-            }
+            5 -> numberOfFacesIsFive()
             else -> throw IllegalArgumentException("Number of faces (must be 2, 3, 4 or 5 for BottomRowCards and MiddleRowCards): $numberOfFaces")
         }
     }

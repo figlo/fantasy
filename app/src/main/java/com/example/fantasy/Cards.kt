@@ -3,7 +3,7 @@ package com.example.fantasy
 import androidx.core.text.HtmlCompat
 
 data class Card(val face: CardFace, val suit: CardSuit) {
-    val htmlColored = "<font color=${suit.hexColor}>${face.abbr}${suit.abbr}</font>"
+    val htmlColored = "<font color=${suit.hexColor}>$this</font>"
 
     override fun toString() = "${face.abbr}${suit.abbr}"
 }
@@ -16,18 +16,37 @@ open class Cards(val cards: MutableList<Card>) {
         sortSwitch = !sortSwitch
     }
 
-    private fun sortByRankAndColor() = cards.sortWith(compareBy({ -it.face.rankAceHigh }, { it.suit }))
+    private fun sortByRankAndColor() =
+        cards.sortWith(
+            compareBy(
+                { -it.face.rankAceHigh },
+                { it.suit }
+            )
+        )
 
-    private fun sortByColorAndRank() = cards.sortWith(compareBy({ it.suit }, { -it.face.rankAceHigh }))
+    private fun sortByColorAndRank() =
+        cards.sortWith(
+            compareBy(
+                { it.suit },
+                { -it.face.rankAceHigh }
+            )
+        )
 
-    protected fun sortByCountAndRank() = cards.sortWith(compareBy({ card -> -cards.count { it.face == card.face } }, { -it.face.rankAceHigh }))
+    protected fun sortByCountAndRank() =
+        cards.sortWith(
+            compareBy(
+                { card -> -cards.count { it.face == card.face } },
+                { -it.face.rankAceHigh }
+            )
+        )
 
-    fun display() = HtmlCompat.fromHtml(
-        cards.joinToString(" ") { it.htmlColored },
-        HtmlCompat.FROM_HTML_MODE_LEGACY
-    )
+    fun display() =
+        HtmlCompat.fromHtml(
+            cards.joinToString(" ") { it.htmlColored },
+            HtmlCompat.FROM_HTML_MODE_LEGACY
+        )
 
-    override fun toString() = cards.joinToString(" ", "[", "]")
+    override fun toString() = cards.joinToString(separator = " ", prefix =  "[", postfix = "]")
 }
 
 class Deck(cards: MutableList<Card> = mutableListOf()) : Cards(cards) {

@@ -24,6 +24,12 @@ class MainActivity : AppCompatActivity() {
         val preferences = PreferenceManager.getDefaultSharedPreferences(this)
         val nickName = preferences.getString("nickName", "")
 
+        binding.buttonDrag.setOnClickListener {
+            Intent(this, DragActivity::class.java).let { intent ->
+                startActivity(intent)
+            }
+        }
+
         binding.buttonNewGame.setOnClickListener {
             Intent(this, GameActivity::class.java).let { intent ->
                 intent.putExtra("nick", nickName)

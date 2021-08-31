@@ -1,6 +1,7 @@
 package com.example.fantasy
 
-import com.example.fantasy.PokerCombination.*
+import com.example.fantasy.PokerCombination.QUADS
+import com.example.fantasy.PokerCombination.TRIPS
 
 class Result {
     lateinit var topRowCards: TopRowCards
@@ -22,5 +23,5 @@ class Result {
 
     fun isGameFantasy() = isValidResult() && topRowCards.value() >= 7
 
-    fun isFantasyFantasy() = isValidResult() && (bottomRowCards.pokerCombination() >= QUADS || topRowCards.pokerCombination() == TRIPS)
+    fun isRepeatedFantasy() = isValidResult() && (bottomRowCards.pokerCombination() >= QUADS || topRowCards.pokerCombination() == TRIPS)
 }

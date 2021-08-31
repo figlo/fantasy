@@ -10,6 +10,18 @@
         android:id="@+id/includedLayout"
         layout="@layout/toolbar" />
 
+
+    <Button
+        android:id="@+id/buttonDrag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/drag"
+        app:layout_constraintBottom_toTopOf="@+id/prefsTable"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
     <TableLayout
         android:id="@+id/prefsTable"
         android:layout_width="wrap_content"
@@ -56,8 +68,8 @@
                 android:id="@+id/spinnerNumberOfFantasyLandCards"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
                 android:entries="@array/number_of_cards_in_fantasy_land_entries"
+                android:padding="8dp"
                 android:textSize="20sp" />
 
         </TableRow>

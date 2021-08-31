@@ -34,7 +34,7 @@ class ResultActivity : AppCompatActivity() {
 
                 resultType = when {
                     isGameFantasy() -> "F"
-                    isFantasyFantasy() -> "FF"
+                    isRepeatedFantasy() -> "FF"
                     isValidResult() -> "OK"
                     else -> "X"
                 }
