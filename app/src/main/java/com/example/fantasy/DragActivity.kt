@@ -3,6 +3,7 @@ package com.example.fantasy
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 
 class DragActivity : ComponentActivity() {
@@ -16,5 +17,5 @@ class DragActivity : ComponentActivity() {
 
 @Composable
 fun MessageCard(name: String) {
-//    Text(text = "Hello $name!")
+    Text(text = "Hello $name!")
 }
