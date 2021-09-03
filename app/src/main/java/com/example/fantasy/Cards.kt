@@ -3,9 +3,9 @@ package com.example.fantasy
 import androidx.core.text.HtmlCompat
 
 data class Card(val face: CardFace, val suit: CardSuit) {
-    val htmlColored = "<font color=${suit.hexColor}>$this</font>"
-
     override fun toString() = "${face.abbr}${suit.abbr}"
+
+    val htmlColored = "<font color=${suit.hexColor}>$this</font>"
 }
 
 open class Cards(val cards: MutableList<Card>) {
@@ -35,14 +35,14 @@ open class Cards(val cards: MutableList<Card>) {
     protected fun sortByCountAndRank() =
         cards.sortWith(
             compareBy(
-                { card -> -cards.count { it.face == card.face } },
+                { card -> -cards.count { otherCard -> card.face == otherCard.face } },
                 { -it.face.rankAceHigh }
             )
         )
 
     fun display() =
         HtmlCompat.fromHtml(
-            cards.joinToString(" ") { it.htmlColored },
+            cards.joinToString(separator = " ") { it.htmlColored },
             HtmlCompat.FROM_HTML_MODE_LEGACY
         )
 
