@@ -32,7 +32,6 @@ class MainActivity : AppCompatActivity() {
 
         binding.buttonNewGame.setOnClickListener {
             Intent(this, GameActivity::class.java).let { intent ->
-                intent.putExtra("nick", nickName)
                 startActivity(intent)
             }
         }

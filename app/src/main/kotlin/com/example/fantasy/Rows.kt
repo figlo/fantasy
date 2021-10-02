@@ -30,8 +30,11 @@ open class RowCards(cards: MutableList<Card>) : Cards(cards) {
             val minFace = cards.map { it.face.rankAceHigh }.minOrNull() ?: throw IllegalArgumentException("minFace must be > 0")
             val maxFace = cards.map { it.face.rankAceHigh }.maxOrNull() ?: throw IllegalArgumentException("maxFace must be > 0")
             val numberOfSuits = cards.map { it.suit }.distinct().count()
+
             fun isFlush() = numberOfSuits == 1
-            fun isStraight() = maxFace - minFace == 4 || (sortedCards.cards[0].face == ACE && sortedCards.cards[1].face == FIVE)
+            fun isStraight() = maxFace - minFace == 4 ||
+                    (sortedCards.cards[0].face == ACE && sortedCards.cards[1].face == FIVE)
+
             return if (isFlush()) {
                 if (isStraight()) {
                     if (sortedCards.cards[0].face == ACE) ROYAL_FLUSH else STRAIGHT_FLUSH
