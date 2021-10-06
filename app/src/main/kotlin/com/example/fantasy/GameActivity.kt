@@ -4,10 +4,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
 import com.example.fantasy.databinding.ActivityGameBinding
+import com.google.android.material.snackbar.Snackbar
 
 class GameActivity : AppCompatActivity() {
     private lateinit var binding: ActivityGameBinding
@@ -52,7 +52,7 @@ class GameActivity : AppCompatActivity() {
                 true
             }
             R.id.about -> {
-                Toast.makeText(this, "About", Toast.LENGTH_SHORT).show()
+                Snackbar.make(binding.root, "About", Snackbar.LENGTH_SHORT).show()
                 true
             }
             else -> super.onOptionsItemSelected(item)
