@@ -25,15 +25,11 @@ class MainActivity : AppCompatActivity() {
         val nickName = preferences.getString("nickName", "")
 
         binding.buttonDrag.setOnClickListener {
-            Intent(this, DragActivity::class.java).let { intent ->
-                startActivity(intent)
-            }
+            startActivity(Intent(this, DragActivity::class.java))
         }
 
         binding.buttonNewGame.setOnClickListener {
-            Intent(this, GameActivity::class.java).let { intent ->
-                startActivity(intent)
-            }
+            startActivity(Intent(this, GameActivity::class.java))
         }
 
         binding.buttonResult.setOnClickListener {
