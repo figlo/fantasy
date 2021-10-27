@@ -12,14 +12,16 @@ import com.example.fantasy.databinding.ActivityMainBinding
 import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity() {
+
     private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val toolbar = binding.includedLayout.toolbar
-        setSupportActionBar(toolbar)
+        setSupportActionBar(binding.includedLayout.toolbar)
 
         val preferences = PreferenceManager.getDefaultSharedPreferences(this)
         val nickName = preferences.getString("nickName", "")
@@ -70,8 +72,7 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.settings -> {
-                val intent = Intent(this, SettingsActivity::class.java)
-                this.startActivity(intent)
+                this.startActivity(Intent(this, SettingsActivity::class.java))
                 true
             }
             R.id.about -> {

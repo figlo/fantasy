@@ -71,8 +71,7 @@ class ResultActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {               // TODO get rid of the same code (MainActivity)
         return when (item.itemId) {
             R.id.settings -> {
-                val intent = Intent(this, SettingsActivity::class.java)
-                this.startActivity(intent)
+                this.startActivity(Intent(this, SettingsActivity::class.java))
                 true
             }
             R.id.about -> {

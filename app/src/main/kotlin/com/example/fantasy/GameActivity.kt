@@ -1,6 +1,5 @@
 package com.example.fantasy
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -47,7 +46,6 @@ class GameActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {               // TODO get rid of redundant code (MainActivity)
         return when (item.itemId) {
             R.id.settings -> {
-                val intent = Intent(this, SettingsActivity::class.java)
                 this.startActivity(intent)
                 true
             }

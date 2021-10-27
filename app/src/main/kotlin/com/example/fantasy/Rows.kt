@@ -12,11 +12,9 @@ open class RowCards(cards: MutableList<Card>) : Cards(cards) {
     val sortedCards = Cards(cards).apply { sortByCountAndRank() }
 
     infix fun isHigherThan(otherRowCards: Cards): Boolean {
-        var rank: Int
-        var otherRank: Int
         sortedCards.cards.forEach { card ->
-            rank = card.face.rankAceHigh
-            otherRank = otherRowCards.cards.elementAt(cards.indexOf(card)).face.rankAceHigh
+            val rank = card.face.rankAceHigh
+            val otherRank = otherRowCards.cards.elementAt(cards.indexOf(card)).face.rankAceHigh
             if (rank > otherRank) return true
             if (rank < otherRank) return false
         }
