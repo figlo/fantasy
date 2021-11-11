@@ -45,10 +45,10 @@ open class RowCards(cards: MutableList<Card>) : Cards(cards) {
         }
 
         return when (numberOfFaces) {
-            2 -> if (sortedCards.cards[2].face == sortedCards.cards[3].face) QUADS else FULL_HOUSE
-            3 -> if (sortedCards.cards[1].face == sortedCards.cards[2].face) TRIPS else TWO_PAIRS
-            4 -> PAIR
-            5 -> numberOfFacesIsFive()
+            2    -> if (sortedCards.cards[2].face == sortedCards.cards[3].face) QUADS else FULL_HOUSE
+            3    -> if (sortedCards.cards[1].face == sortedCards.cards[2].face) TRIPS else TWO_PAIRS
+            4    -> PAIR
+            5    -> numberOfFacesIsFive()
             else -> throw IllegalArgumentException("Number of faces (must be 2, 3, 4 or 5 for BottomRowCards and MiddleRowCards): $numberOfFaces")
         }
     }
@@ -61,9 +61,9 @@ class TopRowCards(cards: MutableList<Card>) : RowCards(cards) {
 
     override fun pokerCombination(): PokerCombination {
         return when (numberOfFaces) {
-            1 -> TRIPS
-            2 -> PAIR
-            3 -> HIGH_CARD
+            1    -> TRIPS
+            2    -> PAIR
+            3    -> HIGH_CARD
             else -> throw IllegalArgumentException("Number of faces (must be 1, 2, or 3 for TopRowCards): $numberOfFaces")
         }
     }
@@ -73,9 +73,9 @@ class TopRowCards(cards: MutableList<Card>) : RowCards(cards) {
 
         return when (pokerCombination()) {
             HIGH_CARD -> 0
-            PAIR -> if (firstCardRank >= 6) firstCardRank - 5 else 0
-            TRIPS -> firstCardRank + 8
-            else -> throw IllegalArgumentException("Poker combination out of range for top row")
+            PAIR      -> if (firstCardRank >= 6) firstCardRank - 5 else 0
+            TRIPS     -> firstCardRank + 8
+            else      -> throw IllegalArgumentException("Poker combination out of range for top row")
         }
     }
 }
@@ -87,16 +87,16 @@ class MiddleRowCards(cards: MutableList<Card>) : RowCards(cards) {
 
     fun value(): Int {
         return when (pokerCombination()) {
-            HIGH_CARD -> 0
-            PAIR -> 0
-            TWO_PAIRS -> 0
-            TRIPS -> 2
-            STRAIGHT -> 4
-            FLUSH -> 8
-            FULL_HOUSE -> 12
-            QUADS -> 20
+            HIGH_CARD      -> 0
+            PAIR           -> 0
+            TWO_PAIRS      -> 0
+            TRIPS          -> 2
+            STRAIGHT       -> 4
+            FLUSH          -> 8
+            FULL_HOUSE     -> 12
+            QUADS          -> 20
             STRAIGHT_FLUSH -> 30
-            ROYAL_FLUSH -> 50
+            ROYAL_FLUSH    -> 50
         }
     }
 }
@@ -108,16 +108,16 @@ class BottomRowCards(cards: MutableList<Card>) : RowCards(cards) {
 
     fun value(): Int {
         return when (pokerCombination()) {
-            HIGH_CARD -> 0
-            PAIR -> 0
-            TWO_PAIRS -> 0
-            TRIPS -> 0
-            STRAIGHT -> 2
-            FLUSH -> 4
-            FULL_HOUSE -> 6
-            QUADS -> 10
+            HIGH_CARD      -> 0
+            PAIR           -> 0
+            TWO_PAIRS      -> 0
+            TRIPS          -> 0
+            STRAIGHT       -> 2
+            FLUSH          -> 4
+            FULL_HOUSE     -> 6
+            QUADS          -> 10
             STRAIGHT_FLUSH -> 15
-            ROYAL_FLUSH -> 25
+            ROYAL_FLUSH    -> 25
         }
     }
 }

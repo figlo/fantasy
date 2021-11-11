@@ -14,12 +14,12 @@ class Result {
     fun isValidResult(): Boolean {
         return when {
             middleRowCards.pokerCombination() > bottomRowCards.pokerCombination() -> false
-            topRowCards.pokerCombination() > middleRowCards.pokerCombination() -> false
+            topRowCards.pokerCombination() > middleRowCards.pokerCombination()    -> false
             middleRowCards.pokerCombination() == bottomRowCards.pokerCombination() &&
-                    middleRowCards isHigherThan bottomRowCards -> false
+                    middleRowCards isHigherThan bottomRowCards                    -> false
             topRowCards.pokerCombination() == middleRowCards.pokerCombination() &&
-                    topRowCards isHigherThan middleRowCards -> false
-            else -> true
+                    topRowCards isHigherThan middleRowCards                       -> false
+            else                                                                  -> true
         }
     }
 
